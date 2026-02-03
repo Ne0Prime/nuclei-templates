@@ -1,0 +1,30 @@
+id: reflection-scanner
+
+info:
+  name: Parameter Reflection Scanner
+  author: NeoPrime
+  severity: info
+  description: Fast detection of reflected parameters
+  tags: reflection,recon
+
+variables:
+  marker: "{{rand_text_alphanumeric(8)}}"
+
+http:
+  - payloads:
+      reflection:
+        - "test{{marker}}test"
+    
+    fuzzing:
+      - part: query
+        type: replace
+        mode: multiple
+        fuzz:
+          - "{{reflection}}"
+    
+    matchers:
+      - type: word
+        name: reflected
+        part: body
+        words:
+          - "{{marker}}"
