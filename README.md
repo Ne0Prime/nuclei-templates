@@ -3,7 +3,11 @@
 Custom Nuclei templates optimized for bug bounty hunting and penetration testing.
 
 ## Content
-
+http/
+├── sqli/
+├── ssrf/
+├── ssti/
+└── xss/
 
 ## 📄 License
 
