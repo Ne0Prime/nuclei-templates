@@ -5,7 +5,7 @@ info:
   author: NeoPrime
   severity: medium
   description: Balanced XSS fuzzing with high-quality payloads
-  tags: xss,fuzzing,injection
+  tags: xss
   metadata:
     max-request: 50
 

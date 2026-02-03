@@ -16,6 +16,7 @@ http:
       reflection:
         low:
           - '{{concat("{{", first, "*", second, "}}")}}'
+          - '{{concat("%7B%7B", first, "*", second, "%7D%7D")}}'
         
         medium:
           - '{{concat("{{", first, "*", second, "}}")}}'

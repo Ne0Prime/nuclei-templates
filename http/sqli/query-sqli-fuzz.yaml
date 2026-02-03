@@ -1,18 +1,17 @@
-id: query-sqli-detection
+id: query-sqli-fuzz
 
 info:
   name: Query Parameter SQLi Detector
   author: NeoPrime
   severity: info
   description: Detects SQL injection
-  tags: sqli,fuzz
+  tags: sqli
 
 http:
   - payloads:
       sqli:
         low:
-          - "'"
-        
+        - "'" 
         medium:
           - "''"
           - "\""
@@ -31,10 +30,9 @@ http:
 
     fuzzing:
       - part: query
-        type: replace
         mode: multiple
-        fuzz: 
-        - "{{sqli}}"
+        fuzz:
+          - "{{sqli}}"
     
     matchers-condition: or
     matchers:
